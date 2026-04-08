@@ -1,0 +1,25 @@
+PROTECTED HEALTH INFORMATION — HIPAA RESTRICTED
+
+Patient: Samuel K. Adeyemi
+DOB: 11/05/1967
+SSN: 305-44-7821
+MRN: 4492018-B
+Insurance ID: BCBS-IN-8847211
+Primary Physician: Dr. Priya Nair, MD
+
+Diagnoses:
+- Type 2 Diabetes Mellitus (E11.9)
+- Hypertension (I10)
+- Major Depressive Disorder, moderate (F32.1)
+
+Current Medications:
+- Metformin 1000mg twice daily
+- Lisinopril 10mg once daily
+- Sertraline 50mg once daily
+
+Lab Results (March 2026):
+- HbA1c: 7.8%
+- LDL: 112 mg/dL
+- eGFR: 68 mL/min
+
+Access restricted to treating providers only. Disclosure without patient consent violates HIPAA.

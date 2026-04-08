@@ -1,0 +1,27 @@
+INTERNAL USE ONLY — Employee Directory (Engineering Department)
+
+Name: Sarah Thompson
+Title: Senior Software Engineer
+Email: s.thompson@acmecorp.com
+Office: Building 3, Room 214
+Extension: x4421
+
+Name: David Nguyen
+Title: DevOps Engineer
+Email: d.nguyen@acmecorp.com
+Office: Building 3, Room 210
+Extension: x4398
+
+Name: Maria Gonzalez
+Title: QA Lead
+Email: m.gonzalez@acmecorp.com
+Office: Building 3, Room 220
+Extension: x4455
+
+Name: James Okafor
+Title: Software Engineer II
+Email: j.okafor@acmecorp.com
+Office: Building 3, Room 215
+Extension: x4412
+
+This directory is for internal use only. Do not distribute outside the organization.

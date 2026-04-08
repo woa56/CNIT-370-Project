@@ -1,0 +1,21 @@
+INTERNAL — 2026 Compensation Benchmarking Summary
+
+Role: Software Engineer II
+Median Internal Salary: $102,500
+Market Median (Glassdoor/Levels.fyi): $108,000
+Gap: -5.3%
+
+Role: Senior Software Engineer
+Median Internal Salary: $131,000
+Market Median: $138,500
+Gap: -5.4%
+
+Role: Engineering Manager
+Median Internal Salary: $158,000
+Market Median: $162,000
+Gap: -2.5%
+
+Recommendations:
+The compensation committee recommends a 4-6% merit increase pool for engineering roles in 2026 to align with market. Retention risk is flagged for senior individual contributors.
+
+Distribution: HR Leadership, Finance, C-Suite only.

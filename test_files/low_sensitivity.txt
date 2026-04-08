@@ -1,5 +1,0 @@
-Project Notes
-
-The meeting is scheduled for next Monday in New York.
-The project is being developed by Acme Corporation.
-Check the website at www.example.com for updates.

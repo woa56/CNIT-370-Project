@@ -1,0 +1,19 @@
+Product FAQ - SmartWidget Pro
+
+Q: What is SmartWidget Pro?
+A: SmartWidget Pro is a productivity tool designed to help teams collaborate efficiently.
+
+Q: What platforms does it support?
+A: It supports Windows 10+, macOS 12+, iOS 15+, and Android 11+.
+
+Q: How do I reset my password?
+A: Click "Forgot Password" on the login screen and follow the email instructions.
+
+Q: Is there a free trial?
+A: Yes, we offer a 14-day free trial with no credit card required.
+
+Q: What is the refund policy?
+A: We offer a 30-day money-back guarantee on all plans.
+
+Q: How do I contact support?
+A: Email support@smartwidget.com or use the in-app chat feature.

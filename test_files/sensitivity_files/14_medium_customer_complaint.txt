@@ -1,0 +1,17 @@
+Customer Complaint Log — Case #CC-20264-B
+
+Customer: Robert Simmons
+Contact: robert.simmons@email.com | (765) 555-0348
+Account #: 778821-A
+
+Date Received: April 2, 2026
+Channel: Email
+
+Complaint Summary:
+Customer reports being billed twice for the March subscription cycle. Total overcharge: $49.99. Customer is requesting immediate refund and assurance that billing controls are in place.
+
+Internal Notes:
+Duplicate charge confirmed by billing team — caused by a system sync error on March 31. Refund issued April 4, 2026. Customer notified via email.
+
+Resolution Status: RESOLVED
+Follow-up Required: No

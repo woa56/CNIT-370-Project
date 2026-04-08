@@ -1,0 +1,20 @@
+PATIENT APPOINTMENT SUMMARY
+
+Patient Name: Linda Forsythe
+Date of Birth: 08/14/1978
+Appointment Date: April 5, 2026
+Provider: Dr. Alan Marsh, MD — Family Medicine
+
+Reason for Visit: Annual wellness exam
+
+Vitals:
+- Blood Pressure: 122/78 mmHg
+- Heart Rate: 68 bpm
+- Weight: 163 lbs
+- Height: 5'6"
+- BMI: 26.3
+
+Notes:
+Patient reports mild seasonal allergies. Recommended over-the-counter antihistamine. All routine lab work within normal limits. Follow-up in 12 months or sooner if symptoms develop.
+
+Next Appointment: April 2027

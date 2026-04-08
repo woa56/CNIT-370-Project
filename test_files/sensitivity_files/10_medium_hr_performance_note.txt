@@ -1,0 +1,22 @@
+CONFIDENTIAL — Performance Improvement Note
+
+Employee: Michael B. Larson
+Employee ID: EMP-20341
+Department: Customer Support
+Manager: Rachel Kim
+Date: March 28, 2026
+
+Summary:
+This note documents a performance discussion held on March 28, 2026, regarding attendance and response time metrics below department standards.
+
+Issues Identified:
+- Average ticket response time of 6.2 hours vs. team target of 3 hours
+- Three unexcused absences in Q1 2026
+- Customer satisfaction score of 72% vs. team average of 88%
+
+Action Plan:
+- Weekly check-ins with manager for 60 days
+- Complete advanced customer service training by April 30
+- Response time must improve to under 4 hours by May 15
+
+This document is confidential and stored in the employee's HR file.

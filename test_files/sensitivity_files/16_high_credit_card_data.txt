@@ -1,0 +1,21 @@
+TRANSACTION EXPORT — INTERNAL AUDIT USE ONLY
+
+Customer: Angela M. Torres
+Card Number: 4539 1488 0343 6467
+Expiry: 09/27
+CVV: 847
+Billing Address: 223 Birchwood Ln, Lafayette, IN 47905
+Transaction Amount: $3,200.00
+Date: March 29, 2026
+Merchant: TechGear Online
+
+Customer: Brendan S. Holloway
+Card Number: 5425 2334 3010 9903
+Expiry: 02/28
+CVV: 312
+Billing Address: 99 Oak Circle, West Lafayette, IN 47906
+Transaction Amount: $540.75
+Date: March 30, 2026
+Merchant: HomeGoods Plus
+
+RESTRICTED: This file contains full PAN data and must be stored in a PCI-DSS compliant environment.

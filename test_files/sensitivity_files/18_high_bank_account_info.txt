@@ -1,0 +1,15 @@
+CONFIDENTIAL — Wire Transfer Authorization Records
+
+Account Holder: Vivienne D. Marchetti
+Bank: First Midwest Bancorp
+Routing Number: 071901604
+Account Number: 7734092845
+Account Type: Business Checking
+Balance (as of 04/01/2026): $214,889.32
+Authorized Transfer Amount: $85,000.00
+Transfer Destination: IBAN DE89370400440532013000
+Beneficiary: Marchetti Imports GmbH, Berlin, Germany
+Transfer Date: April 7, 2026
+Authorization Code: WT-2026-04-VDM-0091
+
+This document contains sensitive banking information. Retention policy: destroy after 90 days.
