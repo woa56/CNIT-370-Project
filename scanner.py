@@ -5,37 +5,58 @@ Uses Microsoft Presidio to detect PII and classify files as High, Medium, or Low
 Setup:
     pip install presidio-analyzer
     python -m spacy download en_core_web_lg
+
+Sensitivity Levels
+------------------
+Low    — Public, harmless, or operational data. No PII, credentials, financial,
+         health, or confidential content. General non-personal / routine information.
+
+Medium — Personal or internal information that is not immediately damaging on its own.
+         Basic identity, contact info, usernames, employment details, internal
+         non-confidential data. No credentials, financial, or health data.
+
+High   — Data that could cause serious harm if exposed: fraud, identity theft,
+         unauthorized access, legal issues, or security compromise. Strong personal
+         identifiers, financial data, credentials, secrets, health records.
 """
 
 import os
 import sys
 from presidio_analyzer import AnalyzerEngine
 
-# PII entities grouped by sensitivity tier
+# ---------------------------------------------------------------------------
+# Entity sets
+# ---------------------------------------------------------------------------
+
+# Strong personal identifiers, financial, health, credentials → HIGH
 HIGH_SENSITIVITY = {
     "US_SSN",
     "CREDIT_CARD",
     "US_BANK_NUMBER",
     "MEDICAL_LICENSE",
     "US_ITIN",
-    "US_PASSPORT",       # passport = high
+    "US_PASSPORT",
+    "DRIVER_ID",          # strong personal identifier
     "IN_AADHAAR",
     "IN_PAN",
     "SG_NRIC_FIN",
     "AU_TFN",
     "AU_MEDICARE",
+    "UK_NHS",             # health data
 }
 
+# Basic personal info, contact info, internal identifiers → MEDIUM
+# DATE_TIME, ORG, and other low-risk entities fall through to LOW
 MEDIUM_SENSITIVITY = {
-    "PHONE_NUMBER",
+    "PERSON",
     "EMAIL_ADDRESS",
-    "DATE_TIME",
-    "NRP",               # Nationality / Religion / Political group
-    "DRIVER_ID",
+    "PHONE_NUMBER",
+    "LOCATION",
+    "NRP",                # Nationality / Religion / Political group
     "IP_ADDRESS",
     "IBAN_CODE",
     "CRYPTO",
-    "UK_NHS",
+    "URL",
     "ES_NIF",
     "IT_FISCAL_CODE",
     "IT_DRIVER_LICENSE",
@@ -46,8 +67,51 @@ MEDIUM_SENSITIVITY = {
     "IN_VEHICLE_REGISTRATION",
 }
 
-# Anything else detected (PERSON, LOCATION, URL, ORG, etc.) = LOW
+# ---------------------------------------------------------------------------
+# Feature flags per sensitivity level
+# ---------------------------------------------------------------------------
 
+LOW_FLAGS = {
+    "contains_pii": 0,
+    "contains_credentials": 0,
+    "contains_financial": 0,
+    "contains_health": 0,
+    "contains_confidential_business": 0,
+    "contains_secrets": 0,
+    "risk_score": 0,
+}
+
+MEDIUM_FLAGS = {
+    "contains_pii": 1,
+    "contains_basic_identity": 1,
+    "contains_contact_info": 1,
+    "contains_internal_only": 1,
+    "contains_credentials": 0,
+    "contains_financial": 0,
+    "contains_health": 0,
+    "contains_secrets": 0,
+}
+
+HIGH_FLAGS = {
+    "contains_sensitive_pii": 1,
+    "contains_financial": 1,
+    "contains_credentials": 1,
+    "contains_secrets": 1,
+    "contains_health": 1,
+    "contains_confidential_business": 1,
+    "high_risk_pattern_match": 1,
+}
+
+FLAGS_BY_LEVEL = {
+    "Low": LOW_FLAGS,
+    "Medium": MEDIUM_FLAGS,
+    "High": HIGH_FLAGS,
+}
+
+
+# ---------------------------------------------------------------------------
+# Classification logic
+# ---------------------------------------------------------------------------
 
 def classify_findings(detected_entities: set[str]) -> str:
     """Return High / Medium / Low based on the most sensitive entity found."""
@@ -55,10 +119,12 @@ def classify_findings(detected_entities: set[str]) -> str:
         return "High"
     if detected_entities & MEDIUM_SENSITIVITY:
         return "Medium"
-    if detected_entities:
-        return "Low"
-    return "Low"  # no PII detected → low risk
+    return "Low"
 
+
+# ---------------------------------------------------------------------------
+# Scanning
+# ---------------------------------------------------------------------------
 
 def scan_file(path: str, analyzer: AnalyzerEngine) -> dict:
     """Scan a single text file and return its classification report."""
@@ -75,6 +141,7 @@ def scan_file(path: str, analyzer: AnalyzerEngine) -> dict:
         "classification": classification,
         "entities_found": sorted(detected),
         "total_hits": len(results),
+        "feature_flags": FLAGS_BY_LEVEL[classification],
     }
 
 
@@ -89,13 +156,16 @@ def scan_directory(directory: str, analyzer: AnalyzerEngine) -> list[dict]:
     return reports
 
 
+# ---------------------------------------------------------------------------
+# Reporting
+# ---------------------------------------------------------------------------
+
 def print_report(reports: list[dict]) -> None:
     """Print a formatted summary of scan results."""
     if not reports:
         print("No .txt files found.")
         return
 
-    # Sort: High first, then Medium, then Low
     order = {"High": 0, "Medium": 1, "Low": 2}
     reports.sort(key=lambda r: order[r["classification"]])
 
@@ -112,9 +182,9 @@ def print_report(reports: list[dict]) -> None:
             print(f"           Hits     : {r['total_hits']}")
         else:
             print(f"           No PII detected")
+        print(f"           Flags    : {r['feature_flags']}")
         print()
 
-    # Summary counts
     counts = {"High": 0, "Medium": 0, "Low": 0}
     for r in reports:
         counts[r["classification"]] += 1
@@ -123,6 +193,10 @@ def print_report(reports: list[dict]) -> None:
     print(f"  Summary: High={counts['High']}  Medium={counts['Medium']}  Low={counts['Low']}")
     print(f"{'='*60}\n")
 
+
+# ---------------------------------------------------------------------------
+# Entry point
+# ---------------------------------------------------------------------------
 
 def main():
     if len(sys.argv) < 2:
