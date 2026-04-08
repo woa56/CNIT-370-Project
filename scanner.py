@@ -123,6 +123,31 @@ def classify_findings(detected_entities: set[str]) -> str:
 
 
 # ---------------------------------------------------------------------------
+# Email classification helpers
+# ---------------------------------------------------------------------------
+
+# Role/function addresses that are public-facing and carry no personal identity.
+PUBLIC_EMAIL_PREFIXES = {
+    "support", "help", "info", "contact", "hello", "hi",
+    "sales", "marketing", "billing", "payments", "invoices",
+    "noreply", "no-reply", "donotreply", "do-not-reply",
+    "admin", "administrator", "webmaster", "postmaster",
+    "security", "privacy", "legal", "compliance",
+    "hr", "careers", "jobs", "recruiting",
+    "press", "media", "pr", "news",
+    "feedback", "survey",
+    "abuse", "spam",
+    "team", "general", "office",
+}
+
+
+def is_public_email(email_text: str) -> bool:
+    """Return True if the email looks like a public/role address rather than a personal one."""
+    local = email_text.split("@")[0].lower().strip()
+    return local in PUBLIC_EMAIL_PREFIXES
+
+
+# ---------------------------------------------------------------------------
 # Scanning
 # ---------------------------------------------------------------------------
 
@@ -133,7 +158,22 @@ def scan_file(path: str, analyzer: AnalyzerEngine) -> dict:
 
     results = analyzer.analyze(text=text, language="en")
 
-    detected = {r.entity_type for r in results}
+    # Split EMAIL_ADDRESS hits into public vs personal so public support
+    # addresses (e.g. support@company.com) don't inflate the sensitivity level.
+    personal_email_found = False
+    for r in results:
+        if r.entity_type == "EMAIL_ADDRESS":
+            email_text = text[r.start:r.end]
+            if not is_public_email(email_text):
+                personal_email_found = True
+                break
+
+    detected = set()
+    for r in results:
+        if r.entity_type == "EMAIL_ADDRESS" and not personal_email_found:
+            continue  # all emails in this file are public role addresses
+        detected.add(r.entity_type)
+
     classification = classify_findings(detected)
 
     return {
