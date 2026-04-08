@@ -51,7 +51,8 @@ MEDIUM_SENSITIVITY = {
     "PERSON",
     "EMAIL_ADDRESS",
     "PHONE_NUMBER",
-    "LOCATION",
+    # LOCATION omitted: city/place names alone are not personal data.
+    # Personal addresses are caught by PERSON + other co-occurring entities.
     "NRP",                # Nationality / Religion / Political group
     "IP_ADDRESS",
     "IBAN_CODE",
@@ -138,6 +139,8 @@ PUBLIC_EMAIL_PREFIXES = {
     "feedback", "survey",
     "abuse", "spam",
     "team", "general", "office",
+    "events", "event", "register", "registration", "volunteer",
+    "newsletter", "updates", "notify", "notifications",
 }
 
 
@@ -158,20 +161,16 @@ def scan_file(path: str, analyzer: AnalyzerEngine) -> dict:
 
     results = analyzer.analyze(text=text, language="en")
 
-    # Split EMAIL_ADDRESS hits into public vs personal so public support
-    # addresses (e.g. support@company.com) don't inflate the sensitivity level.
-    personal_email_found = False
+    detected = set()
     for r in results:
         if r.entity_type == "EMAIL_ADDRESS":
             email_text = text[r.start:r.end]
-            if not is_public_email(email_text):
-                personal_email_found = True
-                break
-
-    detected = set()
-    for r in results:
-        if r.entity_type == "EMAIL_ADDRESS" and not personal_email_found:
-            continue  # all emails in this file are public role addresses
+            if is_public_email(email_text):
+                continue  # public role address (e.g. support@co.com) → Low
+            # personal employee email (e.g. john.doe@co.com) → Medium
+        elif r.entity_type == "URL":
+            if r.start > 0 and text[r.start - 1] == "@":
+                continue  # domain fragment of an email address, not a standalone URL
         detected.add(r.entity_type)
 
     classification = classify_findings(detected)
