@@ -1,0 +1,95 @@
+[AES-128-CBC] 01_low_company_newsletter.txt
+  Key : 0f212a6488d33e89ae610b160595a283
+  IV  : e27ce33923117fba66241124c73c5bb6  (also prepended to output file)
+
+[AES-128-CBC] 02_low_recipe.txt
+  Key : aab59c598f0f88f233ab84246a58d578
+  IV  : 291f541c17834bca4fd2e890c68bb963  (also prepended to output file)
+
+[SHA-256] 08_medium_employee_directory.txt
+  Digest : 35bb254d301e538cd5e06816318ed2293574384a0b628b8cc37fd569f1e42182
+
+[AES-256-GCM] 15_high_ssn_records.txt
+  Key   : d53fd2962fd8a8bde750ee9af6c78dea3d33eb10a1aa2cc21e6af54c603cf3d7
+  Nonce : 24a3ef2d2a032becdc64c6da  (also in output file bytes 0–11)
+  Tag   : 4c3753fc12cb666ad9d7203e5be4cde6   (also in output file bytes 12–27)
+
+[AES-128-CBC] 07_low_weather_report.txt
+  Key : 1808f592191657873b6ab5e0f70cc373
+  IV  : b834ae2620e9a97244e218c8913990f8  (also prepended to output file)
+
+[AES-128-CBC] 03_low_meeting_agenda.txt
+  Key : 6eb9a511ef56ba3927372a920b2bc831
+  IV  : 947b7e4fde9a6be1dad92ad29d35c56c  (also prepended to output file)
+
+[AES-128-CBC] 12_medium_legal_nda.txt
+  Key : 5386549ac34efac8b1500607876d27df
+  IV  : 306d7c93801d79ce5a2a8ffe05c67d9b  (also prepended to output file)
+
+[SHA-256] 08_medium_employee_directory.txt
+  Digest : 35bb254d301e538cd5e06816318ed2293574384a0b628b8cc37fd569f1e42182
+
+[AES-256-GCM] 18_high_bank_account_info.txt
+  Key   : 4bb8666e766c0ae8af8e13f25528c16824c61ad53a007fa3afea548f4307acc2
+  Nonce : 4d2baccacae1d7459cd98bc3  (also in output file bytes 0–11)
+  Tag   : 69a63e104a9dc4b1067ca853a517a9ea   (also in output file bytes 12–27)
+
+[SHA-256] 11_medium_patient_appointment.txt
+  Digest : 1ed1880704055e41089dcbcba66d30c97414424fae5dbf6ccc7bb2856124ef7a
+
+[SHA-256] 05_low_book_review.txt
+  Digest : bf1d52bbad75efe38d83184d738e627a0de80cca32fa4a9ff8a54fe976376bc2
+
+[AES-256-GCM] 20_high_passport_immigration.txt
+  Key   : cffc0d4a514cae77bee1ec1322fc6980da10ead05253243f7295b62d0ec2b613
+  Nonce : 115fea2b2612b01f3e7cdb9e  (also in output file bytes 0–11)
+  Tag   : 545e78f0e5bbd58c011c6fb6df08c9a5   (also in output file bytes 12–27)
+
+[SHA-256] 14_medium_customer_complaint.txt
+  Digest : 889a5428cda4830629af969152e579df28b452ec9d37eb5698e1020d58c4301e
+
+[SHA-256] 13_medium_salary_survey.txt
+  Digest : 52b2d03dcc8a529eecf2d021f24f6d0d3bfed8fdedd77a1608a3523993eadc5a
+
+[AES-128-CBC] 06_low_event_announcement.txt
+  Key : 9aebca9d2ad9ad07a23b60da71842588
+  IV  : 55c3a2eed8d2dab392a849b98db115f1  (also prepended to output file)
+
+[AES-256-GCM] 17_high_medical_records.txt
+  Key   : be43f742b121de74d47bada063dea737c4a3fd945f5912a5063c157b73960881
+  Nonce : dae7edafeb1f2b943aaad6c9  (also in output file bytes 0–11)
+  Tag   : 80342d7a989782a8228ce77da68aa298   (also in output file bytes 12–27)
+
+[AES-128-CBC] 01_low_company_newsletter.txt
+  Key : 8ea35e58f67b0524a9a9a27b61371639
+  IV  : 3d5ee7a77381c63682df18497a63d42f  (also prepended to output file)
+
+[SHA-256] 09_medium_client_email.txt
+  Digest : cfbd57c6c005a9fffd22235b2e5d6be80678cc2afe10151e5c3c590be2f5beef
+
+[AES-256-GCM] 15_high_ssn_records.txt
+  Key   : ecb3e0eb6556965076700797cdff1e8c72904da90d484a701181314fc51db295
+  Nonce : cfa09ad53d64765fe990d006  (also in output file bytes 0–11)
+  Tag   : f35f2fc8c7ea8384814221d4ad024542   (also in output file bytes 12–27)
+
+[AES-128-CBC] 02_low_recipe.txt
+  Key : d73c3c2b7eff22d8b88e352a6a8607f5
+  IV  : eef5d582714a68947b982b7892278f8e  (also prepended to output file)
+
+[AES-256-GCM] 19_high_login_credentials.txt
+  Key   : 27d50a597d2c3de1b9a4f5f8ad388b6d5bc5bd3891a6398da4b540d1fe798d9a
+  Nonce : 9f037b7bae68316eda5a5119  (also in output file bytes 0–11)
+  Tag   : 402c7399c76add45397ecaf2e7d339fb   (also in output file bytes 12–27)
+
+[SHA-256] 10_medium_hr_performance_note.txt
+  Digest : 8fd2b14241b95e8a0782eb82b84f66daafef238675361683391bbb691a9d0498
+
+[AES-256-GCM] 16_high_credit_card_data.txt
+  Key   : 5747631379e7c2f143a2f470ae8315f3dc74336a254af24a3199e0d6716c1237
+  Nonce : 1279cad06275a4e9e67e570b  (also in output file bytes 0–11)
+  Tag   : b01a2cc58e75e7c7fc74c9949ef8dd9c   (also in output file bytes 12–27)
+
+[AES-128-CBC] 04_low_product_faq.txt
+  Key : f4ccb2ffb570819d16327baf1ae352e8
+  IV  : ec730b644d9335a0f4c81017499c49ad  (also prepended to output file)
+
