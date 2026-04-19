@@ -5,7 +5,7 @@ Scans each file with scanner.py (Microsoft Presidio) to detect PII and
 automatically selects the appropriate encryption method:
 
   Low    → AES-128-CBC  (symmetric encryption, 128-bit key)
-  Medium → SHA-256      (one-way hash / integrity fingerprint)
+  Medium → AES-192-CBC  (symmetric encryption, 192-bit key)
   High   → AES-256-GCM  (authenticated encryption, 256-bit key)
 
 Usage:
@@ -14,14 +14,13 @@ Usage:
     python encryptor.py report.txt notes/ --keys-out my_keys.txt
 
 Output files:
-    <original>.<ext>  →  <original>.<ext>.aes128 / .sha256 / .aes256
+    <source_dir>/encrypted/<original>.<ext>
 
 Key material (AES keys, IVs, nonces, tags) is appended to keys.txt
 (or the file specified with --keys-out). Keep that file safe.
 """
 
 import argparse
-import hashlib
 import os
 import secrets
 import sys
@@ -32,17 +31,6 @@ from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 
 # Import scanner functions so classification drives encryption automatically
 from scanner import scan_file, scan_directory, AnalyzerEngine
-
-# ---------------------------------------------------------------------------
-# Constants
-# ---------------------------------------------------------------------------
-
-# File extension added to each processed output file
-OUTPUT_EXT = {
-    "low":    ".aes128",
-    "medium": ".sha256",
-    "high":   ".aes256",
-}
 
 
 # ---------------------------------------------------------------------------
@@ -77,18 +65,32 @@ def encrypt_aes128(plaintext: bytes) -> tuple[bytes, bytes, bytes]:
 
 
 # ---------------------------------------------------------------------------
-# SHA-256  (medium sensitivity)
+# AES-192 CBC  (medium sensitivity)
 # ---------------------------------------------------------------------------
 
-def hash_sha256(data: bytes) -> str:
+def encrypt_aes192(plaintext: bytes) -> tuple[bytes, bytes, bytes]:
     """
-    Compute the SHA-256 digest of *data* and return it as a hex string.
+    Encrypt *plaintext* with AES-192 in CBC mode.
 
-    Note: SHA-256 is a one-way function — the original content cannot be
-    recovered from the hash. This is used as an integrity fingerprint for
-    medium-sensitivity files rather than reversible encryption.
+    AES-192 uses a 24-byte (192-bit) key, offering a stronger security margin
+    than AES-128 while remaining fully reversible (unlike SHA-256).
+
+    Returns:
+        ciphertext  – encrypted bytes
+        key         – 24-byte (192-bit) secret key  ← keep private
+        iv          – 16-byte initialisation vector  (stored with ciphertext)
     """
-    return hashlib.sha256(data).hexdigest()
+    key = secrets.token_bytes(24)   # 192-bit key (cryptographically random)
+    iv  = secrets.token_bytes(16)   # 128-bit IV  (random, not secret)
+
+    padder = padding.PKCS7(128).padder()
+    padded_plaintext = padder.update(plaintext) + padder.finalize()
+
+    cipher    = Cipher(algorithms.AES(key), modes.CBC(iv))
+    encryptor = cipher.encryptor()
+    ciphertext = encryptor.update(padded_plaintext) + encryptor.finalize()
+
+    return ciphertext, key, iv
 
 
 # ---------------------------------------------------------------------------
@@ -131,7 +133,7 @@ def process_file(filepath: str, label: str, keys_file) -> dict:
 
     File layout written to disk:
         AES-128-CBC  →  IV (16 B) + ciphertext
-        SHA-256      →  hex digest string (64 chars + newline)
+        AES-192-CBC  →  IV (16 B) + ciphertext
         AES-256-GCM  →  nonce (12 B) + tag (16 B) + ciphertext
 
     Embedding IV/nonce/tag in the output file is standard practice: they are
@@ -148,7 +150,10 @@ def process_file(filepath: str, label: str, keys_file) -> dict:
         raise ValueError(f"Not a regular file: {filepath}")
 
     plaintext = path.read_bytes()
-    out_path  = path.with_suffix(path.suffix + OUTPUT_EXT[label])
+
+    encrypted_dir = path.parent / "encrypted"
+    encrypted_dir.mkdir(exist_ok=True)
+    out_path = encrypted_dir / path.name
 
     if label == "low":
         # --- AES-128-CBC ---
@@ -166,18 +171,18 @@ def process_file(filepath: str, label: str, keys_file) -> dict:
         out_size = len(iv) + len(ciphertext)
 
     elif label == "medium":
-        # --- SHA-256 hash ---
-        digest = hash_sha256(plaintext)
+        # --- AES-192-CBC ---
+        ciphertext, key, iv = encrypt_aes192(plaintext)
 
-        # Write the hex digest to the output file (one line)
-        out_path.write_text(digest + "\n", encoding="utf-8")
+        # Prepend IV to ciphertext so the output file is self-contained
+        out_path.write_bytes(iv + ciphertext)
 
-        # Record digest in the keys file as a reference
-        keys_file.write(f"[SHA-256] {path.name}\n")
-        keys_file.write(f"  Digest : {digest}\n\n")
+        keys_file.write(f"[AES-192-CBC] {path.name}\n")
+        keys_file.write(f"  Key : {key.hex()}\n")
+        keys_file.write(f"  IV  : {iv.hex()}  (also prepended to output file)\n\n")
 
-        method   = "SHA-256"
-        out_size = len(digest) + 1  # +1 for the newline
+        method   = "AES-192-CBC"
+        out_size = len(iv) + len(ciphertext)
 
     else:  # high
         # --- AES-256-GCM ---
